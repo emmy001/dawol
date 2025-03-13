@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'routes/app_routes.dart'; // Import the AppRoutes
 import 'widgets/input_fields.dart'; // Import the InputFields widget
 import 'widgets/button.dart'; // Import the Button widget
 
@@ -109,7 +110,7 @@ class SignUp extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             const Text(
-                              'Don’t have an account? ',
+                              'Already have an account? ',
                               style: TextStyle(
                                 color: Colors.black,
                                 fontSize: 12,
@@ -120,10 +121,13 @@ class SignUp extends StatelessWidget {
                             ),
                             GestureDetector(
                               onTap: () {
-                                print('Create account tapped');
+                                Navigator.pushNamed(
+                                  context,
+                                  AppRoutes.login,
+                                ); // Use named route
                               },
                               child: const Text(
-                                'Create account',
+                                'Sign In',
                                 style: TextStyle(
                                   color: Color(0xFF777573),
                                   fontSize: 12,
