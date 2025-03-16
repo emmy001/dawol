@@ -30,7 +30,7 @@ class SignUp extends StatelessWidget {
                 // Logo/Image (Centered)
                 SizedBox(
                   width: double.infinity,
-                  height: 240, // Fixed height for the image
+                  height: 250, // Fixed height for the image
                   child: Image.asset(
                     "assets/images/signup_image.png",
                     fit: BoxFit.cover,

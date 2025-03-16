@@ -102,7 +102,7 @@ class Login extends StatelessWidget {
                             'Forgot Password?',
                             style: TextStyle(
                               color: Color(0xFF767573),
-                              fontSize: 9,
+                              fontSize: 12,
                               fontFamily: 'Inter',
                               fontWeight: FontWeight.w600,
                               height: 0.67,
@@ -127,7 +127,7 @@ class Login extends StatelessWidget {
                               'Don’t have an account? ',
                               style: TextStyle(
                                 color: Colors.black,
-                                fontSize: 9,
+                                fontSize: 12,
                                 fontFamily: 'Inter',
                                 fontWeight: FontWeight.w600,
                                 height: 0.67,

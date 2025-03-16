@@ -16,7 +16,7 @@ class InputFields extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 327,
+      width: 355,
       height: 64,
       decoration: ShapeDecoration(
         shape: RoundedRectangleBorder(
@@ -32,7 +32,7 @@ class InputFields extends StatelessWidget {
             border: InputBorder.none, // Remove the default underline
             hintText: hintText, // Use the passed hint text
             hintStyle: TextStyle(
-              color: Colors.black.withOpacity(0.5), // Semi-transparent black
+              color: Colors.black.withOpacity(0.2), // Semi-transparent black
               fontSize: 14,
               fontFamily: 'Inter',
               fontWeight: FontWeight.w600,
