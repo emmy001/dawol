@@ -1,45 +1,73 @@
 import 'package:flutter/material.dart';
-import 'routes/app_routes.dart'; // Import the AppRoutes
-import '../widgets/input_fields.dart'; // Import the InputFields widget
-import '../widgets/button.dart'; // Import the Button widget
+import 'package:provider/provider.dart';
+import '../routes/app_routes.dart';
+import '../widgets/input_fields.dart';
+import '../widgets/button.dart';
+import '../providers/auth_providers.dart';
 
-class Login extends StatelessWidget {
-  const Login({super.key});
+class SignUp extends StatefulWidget {
+  const SignUp({super.key});
+
+  @override
+  _SignUpState createState() => _SignUpState();
+}
+
+class _SignUpState extends State<SignUp> {
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
+
+  void _signUp() async {
+    // Check if passwords match
+    if (_passwordController.text != _confirmPasswordController.text) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text("Passwords do not match.")));
+      return; // Stop execution if passwords don't match
+    }
+
+    // Proceed with signup if passwords match
+    final authProvider = Provider.of<AuthProvider>(context, listen: false);
+    bool success = await authProvider.signUp(
+      _emailController.text,
+      _passwordController.text,
+    );
+
+    if (success) {
+      Navigator.pushReplacementNamed(context, AppRoutes.home);
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Signup failed. Try again.")),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(
-        0xFFF5F5F5,
-      ), // Light gray background for contrast
+      backgroundColor: const Color(0xFFF5F5F5),
       appBar: AppBar(
-        backgroundColor: Colors.transparent, // Transparent background
-        elevation: 0, // Remove shadow
-        automaticallyImplyLeading: false, // Remove back button
-        title: null, // Remove title
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        automaticallyImplyLeading: false,
       ),
       body: Center(
         child: SingleChildScrollView(
           child: Container(
-            width: double.infinity, // Full width of the screen
-            constraints: const BoxConstraints(
-              maxWidth: 400,
-            ), // Max width for larger screens
+            width: double.infinity,
+            constraints: const BoxConstraints(maxWidth: 400),
             child: Column(
               children: [
-                // Logo/Image (Centered)
                 SizedBox(
                   width: double.infinity,
-                  height: 250, // Fixed height for the image
+                  height: 250,
                   child: Image.asset(
-                    "assets/images/login_image.png",
+                    "assets/images/signup_image.png",
                     fit: BoxFit.cover,
                   ),
                 ),
-
-                const SizedBox(height: 25),
-
-                // White Container covering Login title, input fields, and button
+                const SizedBox(height: 10),
                 Container(
                   width: double.infinity,
                   padding: const EdgeInsets.symmetric(
@@ -47,7 +75,7 @@ class Login extends StatelessWidget {
                     vertical: 40,
                   ),
                   decoration: BoxDecoration(
-                    color: Colors.white, // White background
+                    color: Colors.white,
                     borderRadius: const BorderRadius.only(
                       topLeft: Radius.circular(30),
                       topRight: Radius.circular(30),
@@ -61,12 +89,10 @@ class Login extends StatelessWidget {
                     ],
                   ),
                   child: Column(
-                    crossAxisAlignment:
-                        CrossAxisAlignment.start, // Keep Login left-aligned
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // Login Title (Left-Aligned)
                       const Text(
-                        'Login',
+                        'Signup',
                         style: TextStyle(
                           color: Color(0xFF343434),
                           fontSize: 32,
@@ -75,56 +101,47 @@ class Login extends StatelessWidget {
                           height: 1.50,
                         ),
                       ),
+                      const SizedBox(height: 25),
 
-                      const SizedBox(height: 30),
-
-                      // Username Input Field
-                      const InputFields(hintText: 'Username'),
+                      InputFields(
+                        controller: _emailController,
+                        hintText: 'Email',
+                      ),
 
                       const SizedBox(height: 20),
 
-                      // Password Input Field
-                      const InputFields(
+                      InputFields(
+                        controller: _passwordController,
                         hintText: 'Password',
                         obscureText: true,
                       ),
 
-                      const SizedBox(height: 10),
+                      const SizedBox(height: 20),
 
-                      // Forgot Password Link (Right-Aligned)
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: GestureDetector(
-                          onTap: () {
-                            print('Forgot Password tapped');
-                          },
-                          child: const Text(
-                            'Forgot Password?',
-                            style: TextStyle(
-                              color: Color(0xFF767573),
-                              fontSize: 12,
-                              fontFamily: 'Inter',
-                              fontWeight: FontWeight.w600,
-                              height: 0.67,
-                            ),
-                          ),
+                      InputFields(
+                        controller: _confirmPasswordController,
+                        hintText: 'Confirm Password',
+                        obscureText: true,
+                      ),
+
+                      const SizedBox(height: 30),
+
+                      Center(
+                        child: CustomButton(
+                          text: 'SignUp',
+                          onPressed:
+                              _signUp, // Connected to authentication logic
                         ),
                       ),
 
-                      const SizedBox(height: 40),
-
-                      // Login Button (Centered)
-                      const Center(child: CustomButton(text: 'Login')),
-
                       const SizedBox(height: 20),
 
-                      // Create Account Link (Centered)
                       Center(
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             const Text(
-                              'Don’t have an account? ',
+                              'Already have an account? ',
                               style: TextStyle(
                                 color: Colors.black,
                                 fontSize: 12,
@@ -135,13 +152,10 @@ class Login extends StatelessWidget {
                             ),
                             GestureDetector(
                               onTap: () {
-                                Navigator.pushNamed(
-                                  context,
-                                  AppRoutes.signup,
-                                ); // Use named route
+                                Navigator.pushNamed(context, AppRoutes.login);
                               },
                               child: const Text(
-                                'Create account',
+                                'Sign In',
                                 style: TextStyle(
                                   color: Color(0xFF777573),
                                   fontSize: 12,

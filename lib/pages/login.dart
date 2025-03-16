@@ -1,22 +1,45 @@
 import 'package:flutter/material.dart';
-import 'routes/app_routes.dart'; // Import the AppRoutes
-import 'widgets/input_fields.dart'; // Import the InputFields widget
-import 'widgets/button.dart'; // Import the Button widget
+import 'package:provider/provider.dart';
+import '../routes/app_routes.dart'; // Import the AppRoutes
+import '../../widgets/input_fields.dart'; // Import the InputFields widget
+import '../../widgets/button.dart'; // Import the Button widget
+import '../providers/auth_providers.dart';
 
-class SignUp extends StatelessWidget {
-  const SignUp({super.key});
+class Login extends StatefulWidget {
+  const Login({super.key});
+
+  @override
+  _LoginState createState() => _LoginState();
+}
+
+class _LoginState extends State<Login> {
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
+  void _login() async {
+    final authProvider = Provider.of<AuthProvider>(context, listen: false);
+    bool success = await authProvider.login(
+      _emailController.text,
+      _passwordController.text,
+    );
+
+    if (success) {
+      Navigator.pushReplacementNamed(context, AppRoutes.home);
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Login failed. Check your credentials.")),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(
-        0xFFF5F5F5,
-      ), // Light gray background for contrast
+      backgroundColor: const Color(0xFFF5F5F5), // Light gray background
       appBar: AppBar(
         backgroundColor: Colors.transparent, // Transparent background
         elevation: 0, // Remove shadow
         automaticallyImplyLeading: false, // Remove back button
-        title: null, // Remove title
       ),
       body: Center(
         child: SingleChildScrollView(
@@ -32,14 +55,13 @@ class SignUp extends StatelessWidget {
                   width: double.infinity,
                   height: 250, // Fixed height for the image
                   child: Image.asset(
-                    "assets/images/signup_image.png",
+                    "assets/images/login_image.png",
                     fit: BoxFit.cover,
                   ),
                 ),
+                const SizedBox(height: 25),
 
-                const SizedBox(height: 10),
-
-                // White Container covering Signup title, input fields, and button
+                // White Container covering Login title, input fields, and button
                 Container(
                   width: double.infinity,
                   padding: const EdgeInsets.symmetric(
@@ -62,11 +84,11 @@ class SignUp extends StatelessWidget {
                   ),
                   child: Column(
                     crossAxisAlignment:
-                        CrossAxisAlignment.start, // Keep Signup left-aligned
+                        CrossAxisAlignment.start, // Keep Login left-aligned
                     children: [
-                      // Signup Title (Left-Aligned)
+                      // Login Title
                       const Text(
-                        'Signup',
+                        'Login',
                         style: TextStyle(
                           color: Color(0xFF343434),
                           fontSize: 32,
@@ -75,65 +97,78 @@ class SignUp extends StatelessWidget {
                           height: 1.50,
                         ),
                       ),
-
-                      const SizedBox(height: 25),
+                      const SizedBox(height: 30),
 
                       // Username Input Field
-                      const InputFields(hintText: 'Username'),
+                      InputFields(
+                        controller: _emailController,
+                        hintText: 'Username',
+                      ),
 
                       const SizedBox(height: 20),
 
                       // Password Input Field
-                      const InputFields(
+                      InputFields(
                         hintText: 'Password',
                         obscureText: true,
+                        controller: _passwordController,
+                      ),
+
+                      const SizedBox(height: 10),
+
+                      // Forgot Password Link
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: GestureDetector(
+                          onTap: () {
+                            debugPrint('Forgot Password tapped');
+                          },
+                          child: const Text(
+                            'Forgot Password?',
+                            style: TextStyle(
+                              color: Color(0xFF767573),
+                              fontSize: 12,
+                              fontFamily: 'Inter',
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                      ),
+
+                      const SizedBox(height: 40),
+
+                      // Login Button
+                      Center(
+                        child: CustomButton(onPressed: _login, text: 'Login'),
                       ),
 
                       const SizedBox(height: 20),
 
-                      // Confirm Password Input Field
-                      const InputFields(
-                        hintText: 'Confirm Password',
-                        obscureText: true,
-                      ),
-
-                      const SizedBox(height: 30),
-
-                      // SignUp Button (Centered)
-                      const Center(child: CustomButton(text: 'SignUp')),
-
-                      const SizedBox(height: 20),
-
-                      // Create Account Link (Centered)
+                      // Create Account Link
                       Center(
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             const Text(
-                              'Already have an account? ',
+                              'Don’t have an account? ',
                               style: TextStyle(
                                 color: Colors.black,
                                 fontSize: 12,
                                 fontFamily: 'Inter',
                                 fontWeight: FontWeight.w600,
-                                height: 0.67,
                               ),
                             ),
                             GestureDetector(
                               onTap: () {
-                                Navigator.pushNamed(
-                                  context,
-                                  AppRoutes.login,
-                                ); // Use named route
+                                Navigator.pushNamed(context, AppRoutes.signup);
                               },
                               child: const Text(
-                                'Sign In',
+                                'Create account',
                                 style: TextStyle(
                                   color: Color(0xFF777573),
                                   fontSize: 12,
                                   fontFamily: 'Inter',
                                   fontWeight: FontWeight.w600,
-                                  height: 0.67,
                                 ),
                               ),
                             ),

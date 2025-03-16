@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'widgets/app_bar.dart';
-import 'widgets/bottom_navigation_bar.dart';
-import 'widgets/calendar.dart';
+import '../widgets/app_bar.dart';
+import '../widgets/bottom_navigation_bar.dart';
+import '../widgets/calendar.dart';
 
 class HomeClientsPage extends StatelessWidget {
   const HomeClientsPage({super.key});

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class InputFields extends StatelessWidget {
+  final TextEditingController controller;
   final String hintText; // Hint text for the input field
   final bool
   obscureText; // Whether the text should be obscured (e.g., for passwords)
@@ -8,6 +9,7 @@ class InputFields extends StatelessWidget {
 
   const InputFields({
     super.key,
+    required this.controller, //ensures controller is required
     required this.hintText,
     this.obscureText = false,
     this.onChanged,
@@ -27,6 +29,7 @@ class InputFields extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: TextField(
+          controller: controller, // Attach the controller
           obscureText: obscureText, // Toggle text obscuring
           decoration: InputDecoration(
             border: InputBorder.none, // Remove the default underline
