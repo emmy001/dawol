@@ -5,6 +5,8 @@ import '../widgets/recent_orders_section.dart';
 import '../widgets/search_section.dart';
 import '../widgets/bottom_navigation_bar.dart';
 import '../widgets/calendar.dart';
+import '../widgets/openChatOverlay.dart';
+import '../widgets/floatingButton.dart';
 
 class HomeClientsPage extends StatelessWidget {
   const HomeClientsPage({super.key});
@@ -23,6 +25,13 @@ class HomeClientsPage extends StatelessWidget {
             const Calendar(
               selectedDate: 15,
             ), // Provide a value for selectedDate
+            ChatOverlay(),
+            Fab(
+              onPressed: () {
+                print("FAB Clicked!");
+              },
+              imagePath: 'assets/images/startChat.svg',
+            ),
           ],
         ),
       ),
