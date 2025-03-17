@@ -39,7 +39,7 @@ class HomeClientsPage extends StatelessWidget {
             const SizedBox(width: 25),
             Fab(
               onTap: () {
-                Navigator.pushNamed(context, AppRoutes.chats);
+                Navigator.pushNamed(context, AppRoutes.chats2);
               },
               imagePath: 'assets/images/start.svg',
             ),

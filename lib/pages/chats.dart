@@ -34,9 +34,7 @@ class _ChatsState extends State<Chats> {
             child: Column(
               children: [
                 const CustomAppBar(userName: 'Kajwang'), // Pass the user's name
-                const WelcomeSection(),
-                const RecentOrdersSection(),
-                const SearchSection(),
+
                 const Calendar(
                   selectedDate: 15,
                 ), // Provide a value for selectedDate

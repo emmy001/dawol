@@ -5,6 +5,7 @@ import 'pages/login.dart';
 import 'pages/signup.dart';
 import 'pages/home_page.dart';
 import 'pages/chats.dart';
+import 'pages/chats2.dart';
 
 void main() {
   runApp(
@@ -29,6 +30,7 @@ class DawolApp extends StatelessWidget {
         '/signup': (context) => const SignUp(),
         '/home': (context) => const HomeClientsPage(),
         '/chats': (context) => const Chats(),
+        '/chats2': (context) => const Chats2(),
       },
     );
   }

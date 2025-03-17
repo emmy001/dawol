@@ -2,7 +2,8 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class AuthService {
-  static const String baseUrl = 'http://localhost:5000/api/auth';
+  static const String baseUrl =
+      'https://dawol-app-backend-git-master-kajwang.vercel.app/api/auth';
 
   Future<Map<String, dynamic>?> login(String email, String password) async {
     final response = await http.post(
