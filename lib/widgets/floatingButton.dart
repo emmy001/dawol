@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
 
 class Fab extends StatelessWidget {
-  final VoidCallback onPressed;
+  final VoidCallback onTap;
   final String imagePath;
 
-  const Fab({Key? key, required this.onPressed, required this.imagePath})
+  const Fab({Key? key, required this.onTap, required this.imagePath})
     : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Positioned(
       bottom: 20,
-      right: 60,
+      right: 20,
       child: FloatingActionButton(
-        onPressed: onPressed,
+        onPressed: onTap,
         backgroundColor: Colors.black,
-        child: Image.asset(imagePath, width: 10, height: 10),
+        child: Image.asset(imagePath, width: 24, height: 24),
       ),
     );
   }

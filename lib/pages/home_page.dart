@@ -7,6 +7,7 @@ import '../widgets/bottom_navigation_bar.dart';
 import '../widgets/calendar.dart';
 import '../widgets/openChatOverlay.dart';
 import '../widgets/floatingButton.dart';
+import '../routes/app_routes.dart';
 
 class HomeClientsPage extends StatelessWidget {
   const HomeClientsPage({super.key});
@@ -20,17 +21,27 @@ class HomeClientsPage extends StatelessWidget {
           children: [
             const CustomAppBar(userName: 'Kajwang'), // Pass the user's name
             const WelcomeSection(),
+
+            const SizedBox(width: 25),
             const RecentOrdersSection(),
+
+            const SizedBox(width: 25),
             const SearchSection(),
+
+            const SizedBox(width: 25),
             const Calendar(
               selectedDate: 15,
             ), // Provide a value for selectedDate
+
+            const SizedBox(width: 25),
             ChatOverlay(),
+
+            const SizedBox(width: 25),
             Fab(
-              onPressed: () {
-                print("FAB Clicked!");
+              onTap: () {
+                Navigator.pushNamed(context, AppRoutes.chats);
               },
-              imagePath: 'assets/images/startChat.svg',
+              imagePath: 'assets/images/start.svg',
             ),
           ],
         ),

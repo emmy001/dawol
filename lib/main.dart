@@ -4,6 +4,7 @@ import './providers/auth_providers.dart';
 import 'pages/login.dart';
 import 'pages/signup.dart';
 import 'pages/home_page.dart';
+import 'pages/chats.dart';
 
 void main() {
   runApp(
@@ -27,6 +28,7 @@ class DawolApp extends StatelessWidget {
         '/login': (context) => const Login(),
         '/signup': (context) => const SignUp(),
         '/home': (context) => const HomeClientsPage(),
+        '/chats': (context) => const Chats(),
       },
     );
   }
