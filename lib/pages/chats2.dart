@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import '../widgets/story_list.dart';
+import '../widgets/chat_item.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 void main() {
   runApp(const Chats2());
@@ -13,203 +16,105 @@ class Chats2 extends StatelessWidget {
       theme: ThemeData.dark().copyWith(
         scaffoldBackgroundColor: const Color.fromARGB(255, 18, 32, 47),
       ),
-      home: Scaffold(body: ListView(children: [MessagesScreen()])),
+      home: const Scaffold(body: MessagesScreen()),
     );
   }
 }
 
 class MessagesScreen extends StatelessWidget {
+  const MessagesScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Container(
-          width: 375,
-          height: 812,
-          clipBehavior: Clip.antiAlias,
-          decoration: ShapeDecoration(
-            color: Colors.white,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(40),
-            ),
-          ),
-          child: Stack(
-            children: [
-              Positioned(
-                left: 24,
-                top: 739,
-                child: Container(
-                  width: 327,
-                  height: 1,
-                  decoration: BoxDecoration(color: Color(0xFFEEEEEE)),
-                ),
-              ),
-              Positioned(
-                left: 0,
-                top: 0,
-                child: Container(
-                  width: 375,
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        width: double.infinity,
-                        height: 88,
-                        decoration: BoxDecoration(color: Color(0xFFEEEEEE)),
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 16, top: 32),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'Messages',
-                                style: TextStyle(
-                                  color: Color(0xFF343434),
-                                  fontSize: 24,
-                                  fontFamily: 'Inter',
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                              Icon(Icons.search, size: 24),
-                            ],
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: 22),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 24),
-                        child: Row(
-                          children: List.generate(
-                            5,
-                            (index) => Padding(
-                              padding: const EdgeInsets.only(right: 11),
-                              child: CircleAvatar(
-                                radius: 38.5,
-                                backgroundImage: NetworkImage(
-                                  "https://placehold.co/77x77",
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: 22),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 24),
-                        child: Text(
-                          'Chats',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 22.48,
-                            fontFamily: 'Inter',
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: 12),
-                      ...List.generate(4, (index) => ChatItem()),
-                    ],
+    return Container(
+      width: 375,
+      height: 812,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(40),
+      ),
+      child: Column(
+        children: [
+          // Header Section
+          Container(
+            width: double.infinity,
+            height: 88,
+            color: const Color(0xFFEEEEEE),
+            padding: const EdgeInsets.only(left: 15, right: 15, top: 32),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text(
+                  'Messages',
+                  style: TextStyle(
+                    color: Color(0xFF343434),
+                    fontSize: 24,
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
-              ),
-              Positioned(
-                left: 295,
-                top: 697,
-                child: FloatingActionButton(
-                  onPressed: () {},
-                  child: Icon(Icons.edit, color: Colors.white),
-                  backgroundColor: Colors.black,
+                SvgPicture.asset(
+                  'assets/icons/search2.svg', // Path to your SVG file
+                  width: 24,
+                  height: 24,
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-      ],
-    );
-  }
-}
 
-class ChatItem extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Container(
-          width: double.infinity,
-          height: 83,
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
-          decoration: BoxDecoration(color: Colors.white),
-          child: Row(
-            children: [
-              CircleAvatar(
-                radius: 31.75,
-                backgroundImage: NetworkImage("https://placehold.co/63x63"),
-              ),
-              SizedBox(width: 12),
-              Expanded(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
+          const SizedBox(height: 22),
+
+          // Story List Section
+          StoryList(),
+
+          const SizedBox(height: 22),
+
+          // Chats Header Section (with SVG icon)
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 24),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment:
+                  CrossAxisAlignment.center, // Align text & icon
+              children: [
+                Row(
                   children: [
                     Text(
-                      'John Doe',
+                      'Chats',
                       style: TextStyle(
-                        color: Colors.black.withOpacity(0.9),
-                        fontSize: 14,
-                        fontFamily: 'Inter',
-                        fontWeight: FontWeight.w800,
+                        color: Colors.black,
+                        fontSize: 22.48,
+                        fontWeight: FontWeight.w500,
                       ),
                     ),
-                    Text(
-                      'Hey would you please come...',
-                      style: TextStyle(
-                        color: Colors.black.withOpacity(0.9),
-                        fontSize: 14,
-                        fontFamily: 'Inter',
-                        fontWeight: FontWeight.w300,
-                      ),
+                    SizedBox(width: 8), // Spacing between text and icon
+                    SvgPicture.asset(
+                      'assets/icons/more.svg', // Your SVG icon
+                      width: 20,
+                      height: 20,
                     ),
                   ],
                 ),
-              ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    '02:11',
-                    style: TextStyle(
-                      color: Colors.black.withOpacity(0.9),
-                      fontSize: 14,
-                      fontFamily: 'Inter',
-                      fontWeight: FontWeight.w400,
-                    ),
-                  ),
-                  SizedBox(height: 9),
-                  Container(
-                    padding: const EdgeInsets.all(9.53),
-                    decoration: BoxDecoration(
-                      color: Color(0xFF348EFC),
-                      borderRadius: BorderRadius.circular(40.02),
-                    ),
-                    child: Text(
-                      '3',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 13.34,
-                        fontFamily: 'Inter',
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-        Divider(height: 1, color: Color(0xFFEEEEEE)),
-      ],
+
+          const SizedBox(height: 12),
+
+          // Expanded ListView Section
+          Expanded(
+            child: ListView.builder(
+              itemCount: 4,
+              itemBuilder:
+                  (context, index) => const ChatItem(
+                    name: "Almond Steve",
+                    message: "Hello, where are you at?",
+                    time: "13:00",
+                    imageUrl: "https://placehold.co/63x63",
+                  ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

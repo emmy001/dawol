@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../widgets/app_bar.dart';
-import '../widgets/welcome_section.dart';
-import '../widgets/recent_orders_section.dart';
-import '../widgets/search_section.dart';
 import '../widgets/bottom_navigation_bar.dart';
 import '../widgets/calendar.dart';
 import '../widgets/openChatOverlay.dart';
