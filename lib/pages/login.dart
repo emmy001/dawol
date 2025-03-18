@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../routes/app_routes.dart'; // Import the AppRoutes
 import '../../widgets/input_fields.dart'; // Import the InputFields widget
 import '../../widgets/button.dart'; // Import the Button widget
 import '../providers/auth_providers.dart';
+import 'package:go_router/go_router.dart'; // Import GoRouter
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -24,7 +24,7 @@ class _LoginState extends State<Login> {
     );
 
     if (success) {
-      Navigator.pushReplacementNamed(context, AppRoutes.home);
+      GoRouter.of(context).go('/home'); // ✅ Redirect to home using GoRouter
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("Login failed. Check your credentials.")),
@@ -160,7 +160,9 @@ class _LoginState extends State<Login> {
                             ),
                             GestureDetector(
                               onTap: () {
-                                Navigator.pushNamed(context, AppRoutes.signup);
+                                GoRouter.of(context).push(
+                                  '/signup',
+                                ); // Use the route path defined in `appRouter`
                               },
                               child: const Text(
                                 'Create account',

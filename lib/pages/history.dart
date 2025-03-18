@@ -3,8 +3,8 @@ import '../widgets/app_bar.dart';
 import '../widgets/bottom_navigation_bar.dart';
 import '../widgets/calendar.dart';
 
-class Appointments extends StatelessWidget {
-  const Appointments({super.key});
+class History extends StatelessWidget {
+  const History({super.key});
 
   @override
   Widget build(BuildContext context) {

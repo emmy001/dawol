@@ -7,12 +7,12 @@ class ChatItem extends StatelessWidget {
   final String imageUrl;
 
   const ChatItem({
-    Key? key,
+    super.key,
     required this.name,
     required this.message,
     required this.time,
     required this.imageUrl,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

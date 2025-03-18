@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import './providers/auth_providers.dart';
-import 'pages/login.dart';
-import 'pages/signup.dart';
-import 'pages/home_page.dart';
-import 'pages/chats.dart';
-import 'pages/chats2.dart';
+import 'routes/app_routes.dart'; // Import your AppRouter
 
 void main() {
   runApp(
@@ -21,17 +17,10 @@ class DawolApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       debugShowCheckedModeBanner: false,
       title: 'Dawol App',
-      initialRoute: '/login',
-      routes: {
-        '/login': (context) => const Login(),
-        '/signup': (context) => const SignUp(),
-        '/home': (context) => const HomeClientsPage(),
-        '/chats': (context) => const Chats(),
-        '/chats2': (context) => const Chats2(),
-      },
+      routerConfig: appRouter,
     );
   }
 }

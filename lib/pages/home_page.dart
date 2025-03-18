@@ -7,7 +7,7 @@ import '../widgets/bottom_navigation_bar.dart';
 import '../widgets/calendar.dart';
 import '../widgets/openChatOverlay.dart';
 import '../widgets/floatingButton.dart';
-import '../routes/app_routes.dart';
+import 'package:go_router/go_router.dart';
 
 class HomeClientsPage extends StatelessWidget {
   const HomeClientsPage({super.key});
@@ -39,7 +39,9 @@ class HomeClientsPage extends StatelessWidget {
             const SizedBox(width: 25),
             Fab(
               onTap: () {
-                Navigator.pushNamed(context, AppRoutes.chats2);
+                context.push(
+                  '/chat2',
+                ); // Use the route path defined in `appRouter`
               },
               imagePath: 'assets/images/start.svg',
             ),

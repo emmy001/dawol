@@ -10,6 +10,8 @@ class StoryList extends StatelessWidget {
     },
   );
 
+  StoryList({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Container(

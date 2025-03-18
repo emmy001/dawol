@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 
 class CustomBottomNavigationBar extends StatelessWidget {
   const CustomBottomNavigationBar({super.key});
@@ -26,41 +27,70 @@ class CustomBottomNavigationBar extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          _buildNavItem("assets/icons/home.svg", "Home", isActive: true),
-          _buildNavItem("assets/icons/search.svg", "Search"),
-          _buildNavItem("assets/icons/analytics.svg", "Analytics"),
-          _buildNavItem("assets/icons/history.svg", "History"),
-          _buildNavItem("assets/icons/profile.svg", "Profile"),
+          _buildNavItem(context, "assets/icons/home.svg", "Home", '/home'),
+          _buildNavItem(context, "assets/icons/search.svg", "Search", '/menu'),
+          _buildNavItem(
+            context,
+            "assets/icons/analytics.svg",
+            "Analytics",
+            '/analytics',
+          ),
+          _buildNavItem(
+            context,
+            "assets/icons/history.svg",
+            "History",
+            '/history',
+          ),
+          _buildNavItem(
+            context,
+            "assets/icons/profile.svg",
+            "Profile",
+            '/profile',
+          ),
         ],
       ),
     );
   }
 
-  Widget _buildNavItem(String iconPath, String label, {bool isActive = false}) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        SvgPicture.asset(
-          iconPath,
-          width: 24, // Adjust size as needed
-          height: 24,
-          colorFilter: ColorFilter.mode(
-            isActive ? const Color(0xFF9747FF) : Colors.black,
-            BlendMode.srcIn,
-          ), // Change color based on active state
-        ),
-        const SizedBox(height: 4),
-        Text(
-          label,
-          style: TextStyle(
-            color: isActive ? const Color(0xFF9747FF) : Colors.black,
-            fontSize: 10.0,
-            fontFamily: 'Jaldi',
-            fontWeight: FontWeight.w400,
+  Widget _buildNavItem(
+    BuildContext context,
+    String iconPath,
+    String label,
+    String route,
+  ) {
+    bool isActive = GoRouterState.of(context).uri.toString() == route;
+
+    return GestureDetector(
+      onTap: () {
+        if (GoRouterState.of(context).uri.toString() != route) {
+          context.go(route); // Navigate to the selected route
+        }
+      },
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          SvgPicture.asset(
+            iconPath,
+            width: 24,
+            height: 24,
+            colorFilter: ColorFilter.mode(
+              isActive ? const Color(0xFF9747FF) : Colors.black,
+              BlendMode.srcIn,
+            ),
           ),
-        ),
-      ],
+          const SizedBox(height: 4),
+          Text(
+            label,
+            style: TextStyle(
+              color: isActive ? const Color(0xFF9747FF) : Colors.black,
+              fontSize: 10.0,
+              fontFamily: 'Jaldi',
+              fontWeight: FontWeight.w400,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

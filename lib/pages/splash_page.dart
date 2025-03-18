@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'login.dart'; // Import your login page
+import 'package:go_router/go_router.dart';
 
 class Splash extends StatefulWidget {
   const Splash({super.key});
@@ -14,14 +14,11 @@ class _SplashState extends State<Splash> {
   void initState() {
     super.initState();
 
-    // Navigate to Login Page after 4 seconds
+    // Delay for 4 seconds and navigate to login
     Future.delayed(const Duration(seconds: 4), () {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const Login(),
-        ), // Replace with your Login screen
-      );
+      if (mounted) {
+        GoRouter.of(context).go('/login'); // ✅ Redirect to login
+      }
     });
   }
 

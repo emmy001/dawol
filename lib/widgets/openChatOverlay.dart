@@ -23,6 +23,8 @@ class ChatOverlay extends StatelessWidget {
     },
   ];
 
+  ChatOverlay({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Container(

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../routes/app_routes.dart';
 import '../widgets/input_fields.dart';
 import '../widgets/button.dart';
 import '../providers/auth_providers.dart';
+import 'package:go_router/go_router.dart'; // Import GoRouter
 
 class SignUp extends StatefulWidget {
   const SignUp({super.key});
@@ -35,7 +35,7 @@ class _SignUpState extends State<SignUp> {
     );
 
     if (success) {
-      Navigator.pushReplacementNamed(context, AppRoutes.home);
+      GoRouter.of(context).go('/home');
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("Signup failed. Try again.")),
@@ -152,7 +152,7 @@ class _SignUpState extends State<SignUp> {
                             ),
                             GestureDetector(
                               onTap: () {
-                                Navigator.pushNamed(context, AppRoutes.login);
+                                GoRouter.of(context).push('/login');
                               },
                               child: const Text(
                                 'Sign In',

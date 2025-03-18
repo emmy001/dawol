@@ -1,21 +1,19 @@
 import 'package:flutter/material.dart';
 
-class CustomAppBar extends StatelessWidget {
-  final String userName; // Add a parameter for the user's name
+class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
+  final String userName;
 
   const CustomAppBar({super.key, required this.userName});
 
-  // Helper function to determine the greeting based on the time of day
+  // Function to determine greeting based on time of day
   String _getGreeting() {
-    final hour = DateTime.now().hour; // Get the current hour (0-23)
-
-    switch (hour) {
-      case >= 5 && < 12: // Morning: 5 AM to 11:59 AM
-        return 'Good Morning,';
-      case >= 12 && < 17: // Afternoon: 12 PM to 4:59 PM
-        return 'Good Afternoon,';
-      default: // Evening: 5 PM to 4:59 AM
-        return 'Good Evening,';
+    final hour = DateTime.now().hour;
+    if (hour >= 5 && hour < 12) {
+      return 'Good Morning,';
+    } else if (hour >= 12 && hour < 17) {
+      return 'Good Afternoon,';
+    } else {
+      return 'Good Evening,';
     }
   }
 
@@ -23,19 +21,18 @@ class CustomAppBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      height: 130,
+      height: preferredSize.height, // Use preferredSize for height
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 32),
       decoration: const BoxDecoration(color: Color(0xFFEEEEEE)),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          // Dynamic Greeting with User's Name
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                _getGreeting(), // Call the helper function
+                _getGreeting(),
                 style: const TextStyle(
                   color: Color(0xFF343434),
                   fontSize: 24,
@@ -43,9 +40,9 @@ class CustomAppBar extends StatelessWidget {
                   fontWeight: FontWeight.w600,
                 ),
               ),
-              const SizedBox(height: 4), // Spacing between greeting and name
+              const SizedBox(height: 4),
               Text(
-                userName, // Display the user's name
+                userName,
                 style: const TextStyle(
                   color: Colors.black,
                   fontSize: 17.42,
@@ -55,20 +52,17 @@ class CustomAppBar extends StatelessWidget {
               ),
             ],
           ),
-
-          // Optional Actions (e.g., Icons or Buttons)
-          Row(
-            children: [
-              IconButton(
-                icon: const Icon(Icons.notifications, color: Colors.black),
-                onPressed: () {
-                  // Handle notification icon press
-                },
-              ),
-            ],
+          IconButton(
+            icon: const Icon(Icons.notifications, color: Colors.black),
+            onPressed: () {
+              // Handle notification icon press
+            },
           ),
         ],
       ),
     );
   }
+
+  @override
+  Size get preferredSize => const Size.fromHeight(130); // Set AppBar height
 }

@@ -4,8 +4,7 @@ class Fab extends StatelessWidget {
   final VoidCallback onTap;
   final String imagePath;
 
-  const Fab({Key? key, required this.onTap, required this.imagePath})
-    : super(key: key);
+  const Fab({super.key, required this.onTap, required this.imagePath});
 
   @override
   Widget build(BuildContext context) {
