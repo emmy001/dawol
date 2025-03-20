@@ -35,7 +35,7 @@ class _SignUpState extends State<SignUp> {
     );
 
     if (success) {
-      GoRouter.of(context).go('/home');
+      GoRouter.of(context).go('/profile-completion');
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("Signup failed. Try again.")),

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import '../widgets/app_bar.dart';
-import '../widgets/bottom_navigation_bar.dart';
-import '../widgets/calendar.dart';
-import '../widgets/openChatOverlay.dart';
+import '../../widgets/app_bar.dart';
+import '../../widgets/bottom_navigation_bar.dart';
+import '../../widgets/calendar.dart';
+import '../../widgets/openChatOverlay.dart';
 
 class Chats extends StatefulWidget {
   const Chats({super.key});

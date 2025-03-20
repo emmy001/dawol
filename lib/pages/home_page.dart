@@ -40,9 +40,10 @@ class HomeClientsPage extends StatelessWidget {
             Fab(
               onTap: () {
                 context.push(
-                  '/chat2',
+                  '/chatlist',
                 ); // Use the route path defined in `appRouter`
               },
+              //use chat2 ui for the list
               imagePath: 'assets/images/start.svg',
             ),
           ],

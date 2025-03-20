@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../widgets/story_list.dart';
-import '../widgets/chat_item.dart';
+import '../../widgets/story_list.dart';
+import '../../widgets/chat_item.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 void main() {
