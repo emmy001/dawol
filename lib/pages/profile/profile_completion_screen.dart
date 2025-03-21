@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
-import 'dart:io';
-import 'package:dawol/services/user_service.dart';
+import 'package:provider/provider.dart';
+import 'package:dawol/providers/user_provider.dart';
+import 'package:go_router/go_router.dart';
 
 class ProfileCompletionScreen extends StatefulWidget {
-  final String userId; // Pass the user ID after login
+  final String userId;
 
-  ProfileCompletionScreen({required this.userId});
+  const ProfileCompletionScreen({super.key, required this.userId});
 
   @override
   _ProfileCompletionScreenState createState() =>
@@ -14,129 +14,69 @@ class ProfileCompletionScreen extends StatefulWidget {
 }
 
 class _ProfileCompletionScreenState extends State<ProfileCompletionScreen> {
-  final _formKey = GlobalKey<FormState>();
-  final Map<String, dynamic> _userData = {
-    'full_name': '',
-    'username': '',
-    'phone': '',
-    'gender': 'male',
-    'dob': '',
-    'bio': '',
-    'profile_picture': '',
-    'location': {
-      'city': '',
-      'country': '',
-      'geo': {'lat': 0.0, 'lng': 0.0},
-    },
-    'hourly_rate': 0,
-  };
+  final TextEditingController _fullNameController = TextEditingController();
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _phoneController = TextEditingController();
+  final TextEditingController _genderController = TextEditingController();
+  final TextEditingController _dobController = TextEditingController();
 
-  File? _profileImage;
-
-  Future<void> _pickImage() async {
-    final pickedFile = await ImagePicker().pickImage(
-      source: ImageSource.gallery,
+  void _completeProfile() async {
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    bool success = await userProvider.completeProfile(
+      userId: widget.userId,
+      profileData: {
+        'full_name': _fullNameController.text,
+        'username': _usernameController.text,
+        'phone': _phoneController.text,
+        'gender': _genderController.text,
+        'dob': _dobController.text,
+        // Add other fields as needed
+      },
     );
-    if (pickedFile != null) {
-      setState(() {
-        _profileImage = File(pickedFile.path);
-      });
-    }
-  }
 
-  Future<void> _submitForm() async {
-    if (_formKey.currentState!.validate()) {
-      _formKey.currentState!.save();
-
-      // Upload profile picture if selected
-      if (_profileImage != null) {
-        // Implement image upload logic here
-      }
-
-      try {
-        final response = await UserService.updateUserProfile(
-          widget.userId,
-          _userData,
-        );
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Profile completed successfully!')),
-        );
-        Navigator.pushReplacementNamed(
-          context,
-          '/home',
-        ); // Navigate to the home screen
-      } catch (e) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text('Error: $e')));
-      }
+    if (success) {
+      GoRouter.of(context).go('/home'); // Navigate to the home page
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Failed to complete profile.")),
+      );
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Complete Your Profile')),
+      appBar: AppBar(title: const Text('Complete Profile')),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Form(
-          key: _formKey,
-          child: ListView(
-            children: [
-              TextFormField(
-                decoration: InputDecoration(labelText: 'Full Name'),
-                onSaved: (value) => _userData['full_name'] = value,
-                validator: (value) => value!.isEmpty ? 'Required' : null,
-              ),
-              TextFormField(
-                decoration: InputDecoration(labelText: 'Username'),
-                onSaved: (value) => _userData['username'] = value,
-                validator: (value) => value!.isEmpty ? 'Required' : null,
-              ),
-              TextFormField(
-                decoration: InputDecoration(labelText: 'Phone'),
-                onSaved: (value) => _userData['phone'] = value,
-                validator: (value) => value!.isEmpty ? 'Required' : null,
-              ),
-              DropdownButtonFormField(
-                value: _userData['gender'],
-                items:
-                    ['male', 'female', 'other'].map((gender) {
-                      return DropdownMenuItem(
-                        value: gender,
-                        child: Text(gender),
-                      );
-                    }).toList(),
-                onChanged: (value) => _userData['gender'] = value,
-                decoration: InputDecoration(labelText: 'Gender'),
-              ),
-              TextFormField(
-                decoration: InputDecoration(
-                  labelText: 'Date of Birth (YYYY-MM-DD)',
-                ),
-                onSaved: (value) => _userData['dob'] = value,
-                validator: (value) => value!.isEmpty ? 'Required' : null,
-              ),
-              TextFormField(
-                decoration: InputDecoration(labelText: 'City'),
-                onSaved: (value) => _userData['location']['city'] = value,
-                validator: (value) => value!.isEmpty ? 'Required' : null,
-              ),
-              TextFormField(
-                decoration: InputDecoration(labelText: 'Country'),
-                onSaved: (value) => _userData['location']['country'] = value,
-                validator: (value) => value!.isEmpty ? 'Required' : null,
-              ),
-              ElevatedButton(
-                onPressed: _pickImage,
-                child: Text('Upload Profile Picture'),
-              ),
-              ElevatedButton(
-                onPressed: _submitForm,
-                child: Text('Save Profile'),
-              ),
-            ],
-          ),
+        child: Column(
+          children: [
+            TextField(
+              controller: _fullNameController,
+              decoration: const InputDecoration(labelText: 'Full Name'),
+            ),
+            TextField(
+              controller: _usernameController,
+              decoration: const InputDecoration(labelText: 'Username'),
+            ),
+            TextField(
+              controller: _phoneController,
+              decoration: const InputDecoration(labelText: 'Phone'),
+            ),
+            TextField(
+              controller: _genderController,
+              decoration: const InputDecoration(labelText: 'Gender'),
+            ),
+            TextField(
+              controller: _dobController,
+              decoration: const InputDecoration(labelText: 'Date of Birth'),
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: _completeProfile,
+              child: const Text('Complete Profile'),
+            ),
+          ],
         ),
       ),
     );

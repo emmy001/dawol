@@ -32,12 +32,13 @@ final GoRouter appRouter = GoRouter(
     GoRoute(path: "/appointment", builder: (context, state) => Appointments()),
 
     GoRoute(
-      path: '/profile-completion',
+      path: '/profile-completion/:userId', // Capture userId from URL
       builder: (context, state) {
-        final userId = state.extra as String; // Pass user ID as extra
+        String userId = state.pathParameters['userId']!;
         return ProfileCompletionScreen(userId: userId);
       },
     ),
+
     GoRoute(
       path: '/edit-profile',
       builder: (context, state) {

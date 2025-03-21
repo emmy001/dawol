@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import '../widgets/input_fields.dart';
 import '../widgets/button.dart';
 import '../providers/auth_providers.dart';
-import 'package:go_router/go_router.dart'; // Import GoRouter
+import 'package:go_router/go_router.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({super.key});
@@ -35,7 +35,8 @@ class _SignUpState extends State<SignUp> {
     );
 
     if (success) {
-      GoRouter.of(context).go('/profile-completion');
+      // Navigate to the Profile Completion page with the userId
+      GoRouter.of(context).go('/profile-completion/${authProvider.userId}');
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("Signup failed. Try again.")),

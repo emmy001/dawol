@@ -5,7 +5,7 @@ import 'package:go_router/go_router.dart';
 class ProfileScreen extends StatelessWidget {
   final String userId;
 
-  ProfileScreen({required this.userId});
+  const ProfileScreen({super.key, required this.userId});
 
   @override
   Widget build(BuildContext context) {
@@ -28,13 +28,13 @@ class ProfileScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Full Name: ${userData['full_name']}'),
-                Text('Username: ${userData['username']}'),
-                Text('Email: ${userData['email']}'),
-                Text('Phone: ${userData['phone']}'),
-                Text('Gender: ${userData['gender']}'),
-                Text('City: ${userData['location']['city']}'),
-                Text('Country: ${userData['location']['country']}'),
+                Text('Full Name: ${userData['full_name'] ?? 'N/A'}'),
+                Text('Username: ${userData['username'] ?? 'N/A'}'),
+                Text('Email: ${userData['email'] ?? 'N/A'}'),
+                Text('Phone: ${userData['phone'] ?? 'N/A'}'),
+                Text('Gender: ${userData['gender'] ?? 'N/A'}'),
+                Text('City: ${userData['location']?['city'] ?? 'N/A'}'),
+                Text('Country: ${userData['location']?['country'] ?? 'N/A'}'),
                 ElevatedButton(
                   onPressed: () {
                     context.go('/edit-profile', extra: userId);

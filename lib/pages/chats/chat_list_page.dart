@@ -5,7 +5,7 @@ import 'package:go_router/go_router.dart';
 class ChatListPage extends StatefulWidget {
   final String userId;
 
-  ChatListPage({required this.userId});
+  const ChatListPage({super.key, required this.userId});
 
   @override
   _ChatListPageState createState() => _ChatListPageState();

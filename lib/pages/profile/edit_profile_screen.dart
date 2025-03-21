@@ -4,7 +4,7 @@ import 'package:dawol/services/user_service.dart';
 class EditProfileScreen extends StatefulWidget {
   final Map<String, dynamic> userData;
 
-  EditProfileScreen({required this.userData});
+  const EditProfileScreen({super.key, required this.userData});
 
   @override
   _EditProfileScreenState createState() => _EditProfileScreenState();
@@ -18,6 +18,13 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   void initState() {
     super.initState();
     _updatedData = Map.from(widget.userData);
+
+    // Ensure required fields are not null
+    _updatedData['full_name'] ??= '';
+    _updatedData['username'] ??= '';
+    _updatedData['phone'] ??= '';
+    _updatedData['gender'] ??= 'male';
+    _updatedData['location'] ??= {'city': '', 'country': ''};
   }
 
   Future<void> _submitForm() async {

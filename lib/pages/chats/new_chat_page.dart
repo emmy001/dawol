@@ -4,7 +4,7 @@ import 'package:dawol/services/chat_service.dart';
 class NewChatPage extends StatefulWidget {
   final String userId;
 
-  NewChatPage({required this.userId});
+  const NewChatPage({super.key, required this.userId});
 
   @override
   _NewChatPageState createState() => _NewChatPageState();
@@ -46,29 +46,30 @@ class _NewChatPageState extends State<NewChatPage> {
   }
 
   void _createChat() async {
-  if (selectedUsers.isEmpty) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text("Select at least one user")),
-    );
-    return;
+    if (selectedUsers.isEmpty) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text("Select at least one user")));
+      return;
+    }
+
+    try {
+      await chatService.createChat(
+        [widget.userId, ...selectedUsers], // ✅ Include logged-in user
+        groupName:
+            groupNameController.text.trim().isEmpty
+                ? null
+                : groupNameController.text
+                    .trim(), // ✅ Pass group name if not empty
+      );
+
+      Navigator.pop(context);
+    } catch (e) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text("Failed to create chat")));
+    }
   }
-
-  try {
-    await chatService.createChat(
-      [widget.userId, ...selectedUsers], // ✅ Include logged-in user
-      groupName: groupNameController.text.trim().isEmpty 
-        ? null 
-        : groupNameController.text.trim(), // ✅ Pass group name if not empty
-    );
-
-    Navigator.pop(context);
-  } catch (e) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text("Failed to create chat")),
-    );
-  }
-}
-
 
   @override
   Widget build(BuildContext context) {
