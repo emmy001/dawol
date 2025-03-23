@@ -11,101 +11,35 @@ class EditProfileScreen extends StatefulWidget {
 }
 
 class _EditProfileScreenState extends State<EditProfileScreen> {
-  final _formKey = GlobalKey<FormState>();
-  late Map<String, dynamic> _updatedData;
+  final UserService _userService = UserService(); // Create an instance
 
-  @override
-  void initState() {
-    super.initState();
-    _updatedData = Map.from(widget.userData);
+  Future<void> _updateProfile() async {
+    try {
+      final updatedData = {
+        'full_name': 'New Name', // Example updated data
+        'phone': '1234567890', // Example updated data
+      };
 
-    // Ensure required fields are not null
-    _updatedData['full_name'] ??= '';
-    _updatedData['username'] ??= '';
-    _updatedData['phone'] ??= '';
-    _updatedData['gender'] ??= 'male';
-    _updatedData['location'] ??= {'city': '', 'country': ''};
-  }
+      // Call the method on the instance
+      final response = await _userService.updateUserProfile(
+        widget.userData['userId'], // Pass the userId
+        updatedData,
+      );
 
-  Future<void> _submitForm() async {
-    if (_formKey.currentState!.validate()) {
-      _formKey.currentState!.save();
-
-      try {
-        final response = await UserService.updateUserProfile(
-          widget.userData['_id'],
-          _updatedData,
-        );
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Profile updated successfully!')),
-        );
-        Navigator.pop(context); // Go back to the profile screen
-      } catch (e) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text('Error: $e')));
-      }
+      print("✅ Profile updated: $response");
+    } catch (e) {
+      print("❌ Error updating profile: $e");
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Edit Profile')),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Form(
-          key: _formKey,
-          child: ListView(
-            children: [
-              TextFormField(
-                initialValue: _updatedData['full_name'],
-                decoration: InputDecoration(labelText: 'Full Name'),
-                onSaved: (value) => _updatedData['full_name'] = value,
-                validator: (value) => value!.isEmpty ? 'Required' : null,
-              ),
-              TextFormField(
-                initialValue: _updatedData['username'],
-                decoration: InputDecoration(labelText: 'Username'),
-                onSaved: (value) => _updatedData['username'] = value,
-                validator: (value) => value!.isEmpty ? 'Required' : null,
-              ),
-              TextFormField(
-                initialValue: _updatedData['phone'],
-                decoration: InputDecoration(labelText: 'Phone'),
-                onSaved: (value) => _updatedData['phone'] = value,
-                validator: (value) => value!.isEmpty ? 'Required' : null,
-              ),
-              DropdownButtonFormField(
-                value: _updatedData['gender'],
-                items:
-                    ['male', 'female', 'other'].map((gender) {
-                      return DropdownMenuItem(
-                        value: gender,
-                        child: Text(gender),
-                      );
-                    }).toList(),
-                onChanged: (value) => _updatedData['gender'] = value,
-                decoration: InputDecoration(labelText: 'Gender'),
-              ),
-              TextFormField(
-                initialValue: _updatedData['location']['city'],
-                decoration: InputDecoration(labelText: 'City'),
-                onSaved: (value) => _updatedData['location']['city'] = value,
-                validator: (value) => value!.isEmpty ? 'Required' : null,
-              ),
-              TextFormField(
-                initialValue: _updatedData['location']['country'],
-                decoration: InputDecoration(labelText: 'Country'),
-                onSaved: (value) => _updatedData['location']['country'] = value,
-                validator: (value) => value!.isEmpty ? 'Required' : null,
-              ),
-              ElevatedButton(
-                onPressed: _submitForm,
-                child: Text('Save Changes'),
-              ),
-            ],
-          ),
+      appBar: AppBar(title: const Text('Edit Profile')),
+      body: Center(
+        child: ElevatedButton(
+          onPressed: _updateProfile,
+          child: const Text('Update Profile'),
         ),
       ),
     );

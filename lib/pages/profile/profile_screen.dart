@@ -9,8 +9,12 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Create an instance of UserService
+    final UserService userService = UserService();
+
     return FutureBuilder<Map<String, dynamic>>(
-      future: UserService.getUserDetails(userId),
+      // Call the non-static method on the instance
+      future: userService.getUserDetails(userId),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Center(child: CircularProgressIndicator());

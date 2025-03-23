@@ -7,8 +7,8 @@ class UserService {
   static const String _baseUrl =
       'https://dawol-app-backend.vercel.app/api'; // Replace with your backend URL
 
-  // ✅ Register a new user
-  static Future<Map<String, dynamic>> registerUser(
+  // ✅ Register a new user (non-static)
+  Future<Map<String, dynamic>> registerUser(
     Map<String, dynamic> userData,
   ) async {
     try {
@@ -49,8 +49,8 @@ class UserService {
     }
   }
 
-  // ✅ Complete user profile
-  static Future<Map<String, dynamic>?> completeProfile(
+  // ✅ Complete user profile (non-static)
+  Future<Map<String, dynamic>?> completeProfile(
     String userId,
     Map<String, dynamic> profileData,
   ) async {
@@ -74,8 +74,8 @@ class UserService {
     }
   }
 
-  // ✅ Fetch user details
-  static Future<Map<String, dynamic>> getUserDetails(String userId) async {
+  // ✅ Fetch user details (non-static)
+  Future<Map<String, dynamic>> getUserDetails(String userId) async {
     try {
       final response = await http.get(Uri.parse('$_baseUrl/users/$userId'));
 
@@ -92,8 +92,27 @@ class UserService {
     }
   }
 
-  // ✅ Update user profile
-  static Future<Map<String, dynamic>> updateUserProfile(
+  // ✅ Fetch all users (non-static)
+  Future<List<Map<String, dynamic>>> getAllUsers() async {
+    try {
+      final response = await http.get(Uri.parse('$_baseUrl/users'));
+
+      print("👤 All Users Response: ${response.body}");
+
+      if (response.statusCode == 200) {
+        final List<dynamic> users = jsonDecode(response.body);
+        return users.cast<Map<String, dynamic>>();
+      } else {
+        throw Exception('Failed to fetch all users: ${response.body}');
+      }
+    } catch (e) {
+      print("❌ Error fetching all users: $e");
+      throw Exception('Failed to fetch all users.');
+    }
+  }
+
+  // ✅ Update user profile (non-static)
+  Future<Map<String, dynamic>> updateUserProfile(
     String userId,
     Map<String, dynamic> updatedData,
   ) async {
@@ -117,8 +136,8 @@ class UserService {
     }
   }
 
-  // ✅ Upload Profile Picture
-  static Future<String> uploadProfilePicture(File imageFile) async {
+  // ✅ Upload Profile Picture (non-static)
+  Future<String> uploadProfilePicture(File imageFile) async {
     try {
       var request = http.MultipartRequest(
         'POST',

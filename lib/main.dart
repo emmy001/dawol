@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import './providers/auth_providers.dart';
-import 'routes/app_routes.dart'; // Import your AppRouter
+import 'package:dawol/providers/auth_providers.dart';
+import 'package:dawol/providers/user_provider.dart';
+import 'package:dawol/routes/app_routes.dart'; // Import your AppRouter
 
 void main() {
   runApp(
     MultiProvider(
-      providers: [ChangeNotifierProvider(create: (context) => AuthProvider())],
+      providers: [
+        ChangeNotifierProvider(create: (context) => AuthProvider()),
+        ChangeNotifierProvider(create: (context) => UserProvider()),
+      ],
       child: const DawolApp(),
     ),
   );
